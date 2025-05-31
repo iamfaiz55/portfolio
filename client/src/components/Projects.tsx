@@ -23,7 +23,7 @@ const projects = [
     description:
       "A full-stack blog platform powered by PostgreSQL and Next.js.",
     image:
-      "https://media.istockphoto.com/id/1464672040/photo/business-and-finance.webp?s=612x612",
+      "https://images.unsplash.com/photo-1743942439157-2194bd47bd1f?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyfHx8ZW58MHx8fHx8",
     link: "https://your-blogcms.vercel.app",
   },
   {
@@ -31,7 +31,7 @@ const projects = [
     description:
       "Minimal task tracking tool built with React and Zustand for state management.",
     image:
-      "https://media.istockphoto.com/id/2149038061/photo/hand-business-and-sticky-note.webp?s=612x612",
+      "https://plus.unsplash.com/premium_photo-1747939639569-dfd667403f8c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwxMnx8fGVufDB8fHx8fA%3D%3D",
     link: "https://your-taskmanager.vercel.app",
   },
   {
