@@ -1,11 +1,14 @@
-// import React from "react";
-
 const Footer = () => {
   return (
     <footer className="bg-purple-900 text-purple-100 py-8 px-6 sm:px-12">
       <div className="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-6">
-        {/* Left - About */}
-        <div className="text-center sm:text-left">
+        {/* Left - Logo + About */}
+        <div className="text-center sm:text-left flex flex-col items-center sm:items-start">
+          <img
+            src="https://res.cloudinary.com/dpc5d15ci/image/upload/v1748712174/logo_mgkcum.png"
+            alt="Shaikh Faiz Logo"
+            className="w-28 h-28 mb-2 object-contain"
+          />
           <h3 className="text-xl font-semibold mb-2">Shaikh Faiz</h3>
           <p className="text-sm text-purple-300 max-w-xs">
             Passionate developer crafting dynamic websites, mobile apps, and
@@ -28,6 +31,7 @@ const Footer = () => {
 
         {/* Right - Social Links */}
         <div className="flex space-x-6">
+          {/* GitHub */}
           <a
             href="https://github.com/iamfaiz55"
             target="_blank"
@@ -48,6 +52,8 @@ const Footer = () => {
               />
             </svg>
           </a>
+
+          {/* LinkedIn */}
           <a
             href="https://www.linkedin.com/in/shaikh-faiz-3b7119270/"
             target="_blank"
@@ -63,6 +69,8 @@ const Footer = () => {
               <path d="M19 0h-14c-2.76 0-5 2.24-5 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5v-14c0-2.76-2.24-5-5-5zm-11 19h-3v-10h3v10zm-1.5-11.3c-.97 0-1.75-.79-1.75-1.75S5.53 4.2 6.5 4.2 8.25 5 8.25 5.95 6.97 7.7 6.5 7.7zm13.5 11.3h-3v-5.5c0-1.32-1.12-2-2-2s-2 .68-2 2v5.5h-3v-10h3v1.4c.5-.9 2-1.9 3.5-1.9 3 0 4 2 4 4.6v5.9z" />
             </svg>
           </a>
+
+          {/* Email */}
           <a
             href="mailto:faizuddinshaikh55@gmail.com"
             aria-label="Email"
