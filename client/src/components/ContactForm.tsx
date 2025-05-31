@@ -34,7 +34,7 @@ const ContactForm: React.FC = () => {
             <p>
               <span className="font-semibold text-purple-600">📧 Email:</span>{" "}
               <a
-                href="mailto:shaikhfaiz@gmail.com"
+                href="mailto:faizuddinshaikh55@gmail.com"
                 className="text-purple-700 underline"
               >
                 faizuddinshaikh55@gmail.com
@@ -48,9 +48,53 @@ const ContactForm: React.FC = () => {
             </p>
             <p>
               <span className="font-semibold text-purple-600">
-                🌐 Services:
+                💼 Services:
               </span>{" "}
-              Web Apps, Mobile Apps, Hosting, SEO, Business Tools
+              Web & Mobile Apps, SEO, Hosting, UI/UX, Business Automation
+            </p>
+
+            <p>
+              <span className="font-semibold text-purple-600">
+                📷 Instagram:
+              </span>{" "}
+              <a
+                href="https://www.instagram.com/iamfaizz55/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-purple-700 underline"
+              >
+                @iamfaizz55
+              </a>
+            </p>
+            <p>
+              <span className="font-semibold text-purple-600">
+                💼 LinkedIn:
+              </span>{" "}
+              <a
+                href="https://www.linkedin.com/in/shaikh-faiz-3b7119270/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-purple-700 underline"
+              >
+                /shaikh-faiz
+              </a>
+            </p>
+            <p>
+              <span className="font-semibold text-purple-600">🐙 GitHub:</span>{" "}
+              <a
+                href="https://github.com/iamfaiz55"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-purple-700 underline"
+              >
+                @iamfaiz55
+              </a>
+            </p>
+            <p>
+              <span className="font-semibold text-purple-600">
+                🕓 Availability:
+              </span>{" "}
+              Open to freelance, part-time & full-time roles
             </p>
           </div>
         </motion.div>
