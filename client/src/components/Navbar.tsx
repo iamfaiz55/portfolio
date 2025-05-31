@@ -4,8 +4,6 @@ import {
   AiOutlineHome,
   AiOutlineProject,
   AiOutlineMail,
-  AiOutlineUser,
-  AiOutlineSetting,
   AiOutlineTool,
   AiOutlineCustomerService,
 } from "react-icons/ai";
