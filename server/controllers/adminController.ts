@@ -15,28 +15,55 @@ export const getProjects = asyncHandler(
       .json({ message: "Projects Get Successfully", result: projects });
   }
 );
+export const getProjectDetails = asyncHandler(
+  async (req: Request, res: Response): Promise<any> => {
+    const { id } = req.params;
+    const project = await Project.findById(id);
+    res
+      .status(200)
+      .json({ message: "Project Details Get Successfully", result: project });
+  }
+);
 
 // Add a project
 export const addProject = asyncHandler(
   async (req: Request, res: Response): Promise<any> => {
     upload(req, res, async (err: any) => {
-      const { title } = req.body;
-
-      const project = await Project.findOne({ title });
-      if (project) {
-        return res.status(400).json({ message: "Project Already Exist" });
-      }
+      const { name, desc, tech, duration, link, shortDesc } = req.body;
 
       if (err) {
         return res.status(400).json({ message: err.message || "Upload error" });
       }
-      if (!req.file) {
-        return res.status(400).json({ message: "images is get added" });
-      }
-      const { secure_url } = await cloudinary.uploader.upload(req.file.path);
-      await Project.create({ ...req.body, image: secure_url });
 
-      res.status(200).json({ message: "Project Add Successfully" });
+      if (!req.file) {
+        return res.status(400).json({ message: "Image is required" });
+      }
+
+      // Check for required fields
+      if (!name || !desc || !tech || !duration || !link || !shortDesc) {
+        return res.status(400).json({ message: "All fields are required" });
+      }
+
+      const existingProject = await Project.findOne({ name });
+      if (existingProject) {
+        return res.status(400).json({ message: "Project already exists" });
+      }
+
+      const { secure_url } = await cloudinary.uploader.upload(req.file.path);
+
+      await Project.create({
+        name,
+        desc,
+        image: secure_url,
+        tech: Array.isArray(tech)
+          ? tech
+          : tech.split(",").map((t: string) => t.trim()),
+        duration,
+        link,
+        shortDesc,
+      });
+
+      res.status(200).json({ message: "Project added successfully" });
     });
   }
 );
@@ -45,13 +72,14 @@ export const addProject = asyncHandler(
 export const updateProject = asyncHandler(
   async (req: Request, res: Response): Promise<any> => {
     upload(req, res, async (err: any) => {
+      const { id } = req.params;
+
       if (err) {
         return res
           .status(400)
           .json({ message: "File upload failed", error: err.message });
       }
 
-      const { id } = req.params;
       const project = await Project.findById(id);
       if (!project) {
         return res.status(404).json({ message: "Project not found" });
@@ -78,8 +106,21 @@ export const updateProject = asyncHandler(
         }
       }
 
-      await Project.findByIdAndUpdate(id, { ...req.body, image: imageUrl });
-      res.status(200).json({ message: "Project Update Successfully" });
+      const { name, desc, tech, duration, link, shortDesc } = req.body;
+
+      await Project.findByIdAndUpdate(id, {
+        name,
+        shortDesc,
+        desc,
+        image: imageUrl,
+        tech: Array.isArray(tech)
+          ? tech
+          : tech.split(",").map((t: string) => t.trim()),
+        duration,
+        link,
+      });
+
+      res.status(200).json({ message: "Project updated successfully" });
     });
   }
 );
@@ -102,48 +143,5 @@ export const deleteProject = asyncHandler(
 
     await Project.findByIdAndDelete(id);
     res.status(200).json({ message: "Project Delete Successfully" });
-  }
-);
-
-// Get skills
-export const getSkills = asyncHandler(
-  async (req: Request, res: Response): Promise<any> => {
-    const skills = await Skill.find().sort({ priority: 1 });
-    res
-      .status(200)
-      .json({ message: "Skills Get Successfully", result: skills });
-  }
-);
-
-// Add skill
-export const addSkill = asyncHandler(
-  async (req: Request, res: Response): Promise<any> => {
-    const { skill } = req.body;
-
-    const isExist = await Skill.findOne({ skill });
-    if (isExist) {
-      return res.status(400).json({ message: "Skill already exist" });
-    }
-
-    await Skill.create(req.body);
-    res.status(200).json({ message: "Skill Add Successfully" });
-  }
-);
-
-// Update skill
-export const updateSkill = asyncHandler(
-  async (req: Request, res: Response): Promise<any> => {
-    const { id } = req.params;
-    await Skill.findByIdAndUpdate(id, req.body);
-    res.status(200).json({ message: "Skill Update Successfully" });
-  }
-);
-
-// Delete skill
-export const deleteSkill = asyncHandler(
-  async (req: Request, res: Response): Promise<any> => {
-    const { id } = req.params;
-    await Skill.findByIdAndDelete(id);
-    res.status(200).json({ message: "Skill Delete Successfully" });
   }
 );

@@ -3,7 +3,9 @@ import asyncHandler from "express-async-handler";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/User";
-const JWT_SECRET = process.env.JWT_SECRET || "your_default_secret";
+import dotenv from "dotenv";
+dotenv.config();
+const JWT_SECRET = process.env.JWT_KEY || "secretKey";
 
 const generateToken = (payload: object): string => {
   return jwt.sign(payload, JWT_SECRET, { expiresIn: "7d" });
@@ -12,6 +14,8 @@ const generateToken = (payload: object): string => {
 export const register = asyncHandler(
   async (req: Request, res: Response): Promise<any> => {
     const { email, password, name } = req.body;
+    console.log("HEADERS:", req.headers);
+    console.log("BODY:", req.body);
 
     if (!email || !password || !name) {
       return res

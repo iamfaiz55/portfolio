@@ -3,7 +3,7 @@ import mongoose, { Schema, Document, Model } from "mongoose";
 export interface IClient extends Document {
   name: string;
   email: string;
-  phone: number;
+  mobile: number;
   message: string;
 }
 
@@ -16,7 +16,7 @@ const clientSchema: Schema<IClient> = new Schema({
     type: String,
     required: true,
   },
-  phone: {
+  mobile: {
     type: Number,
     required: true,
   },

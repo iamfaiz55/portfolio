@@ -16,10 +16,14 @@ export const protectedRoute = (
   res: Response,
   next: NextFunction
 ) => {
+  console.log("Token being verified:", req.headers.authorization);
+
   passport.authenticate(
     "jwt",
     { session: false },
     async (err: Error, user: any, info: any) => {
+      console.log("user from protected", info);
+
       if (err) {
         return res
           .status(500)

@@ -1,32 +1,42 @@
 import mongoose, { Schema, Document, Model } from "mongoose";
 
 export interface IProject extends Document {
-  title: string;
-  category: string;
-  priority: number;
+  name: string;
   image: string;
-  url: string;
+  link: string;
+  desc: string;
+  shortDesc: string;
+  tech: string[]; // Array of technologies
+  duration: string; // Time duration to complete the project
 }
 
 const projectSchema: Schema<IProject> = new Schema({
-  title: {
+  name: {
     type: String,
     required: true,
   },
-  category: {
+  link: {
     type: String,
     required: true,
   },
-  priority: {
-    type: Number,
+  desc: {
+    type: String,
+    required: true,
+  },
+  shortDesc: {
+    type: String,
     required: true,
   },
   image: {
     type: String,
     required: true,
   },
-  url: {
-    type: String,
+  tech: {
+    type: [String], // Array of technologies like ["React", "Node.js"]
+    required: true,
+  },
+  duration: {
+    type: String, // e.g., "3 weeks", "2 months"
     required: true,
   },
 });

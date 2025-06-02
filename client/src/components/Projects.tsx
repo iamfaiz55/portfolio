@@ -1,81 +1,100 @@
 // import React from "react";
 import { motion } from "framer-motion";
-
-const projects = [
-  {
-    title: "Portfolio Website",
-    description:
-      "A modern personal portfolio built with React, TailwindCSS, and Framer Motion.",
-    image:
-      "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&auto=format&fit=crop&q=60",
-    link: "https://your-portfolio.vercel.app",
-  },
-  {
-    title: "Chat App",
-    description:
-      "Real-time chat app using Socket.io, Redis, and Express.js backend.",
-    image:
-      "https://plus.unsplash.com/premium_photo-1684769161054-2fa9a998dcb6?w=600&auto=format&fit=crop&q=60",
-    link: "https://your-chatapp.vercel.app",
-  },
-  {
-    title: "Blog CMS",
-    description:
-      "A full-stack blog platform powered by PostgreSQL and Next.js.",
-    image:
-      "https://images.unsplash.com/photo-1743942439157-2194bd47bd1f?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwyfHx8ZW58MHx8fHx8",
-    link: "https://your-blogcms.vercel.app",
-  },
-  {
-    title: "Task Manager",
-    description:
-      "Minimal task tracking tool built with React and Zustand for state management.",
-    image:
-      "https://plus.unsplash.com/premium_photo-1747939639569-dfd667403f8c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwxMnx8fGVufDB8fHx8fA%3D%3D",
-    link: "https://your-taskmanager.vercel.app",
-  },
-  {
-    title: "Dev Tools Dashboard",
-    description:
-      "Interactive dashboard with developer productivity tools, built with Next.js.",
-    image:
-      "https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?w=600&auto=format&fit=crop&q=60",
-    link: "https://your-devtools.vercel.app",
-  },
-];
+// import { useGetAllProjectsQuery } from "@/redux/api/projectApi";
+import { useNavigate } from "react-router-dom";
+import { useGetAllProjectsQuery } from "../redux/projectApi";
 
 const Projects = () => {
+  const { data, isLoading, isError } = useGetAllProjectsQuery();
+  const navigate = useNavigate();
+
+  if (isLoading) return <p className="text-center py-10">Loading...</p>;
+  if (isError || !data)
+    return (
+      <p className="text-center text-red-500 py-10">Failed to load projects.</p>
+    );
+
   return (
     <section
       className="min-h-screen bg-gradient-to-b from-purple-100 to-white py-14 px-4 sm:px-6"
       id="projects"
     >
-      <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-purple-700 mb-10">
+      <h2 className="text-3xl md:text-4xl font-bold text-center text-purple-700 mb-10">
         My Projects
       </h2>
+
       <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-        {projects.map((project, index) => (
-          <motion.a
-            href={project.link}
-            key={index}
-            target="_blank"
-            rel="noopener noreferrer"
-            whileHover={{ scale: 1.02 }}
-            transition={{ type: "spring", stiffness: 150, damping: 18 }}
-            className="bg-white rounded-xl shadow hover:shadow-lg overflow-hidden transform-gpu transition-shadow duration-300"
+        {data.map((project: any, index: number) => (
+          <motion.div
+            key={project._id}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1 }}
+            onClick={() => navigate(`/project-details/${project._id}`)}
+            className="cursor-pointer bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition transform-gpu"
           >
-            <img
-              src={project.image}
-              alt={project.title}
-              className="w-full h-40 sm:h-44 object-cover"
-            />
-            <div className="p-4 sm:p-5">
-              <h3 className="text-lg sm:text-xl font-semibold text-purple-800 mb-1">
-                {project.title}
-              </h3>
-              <p className="text-sm text-gray-600">{project.description}</p>
+            <div className="w-full h-48 bg-gray-200 overflow-hidden">
+              <img
+                src={project.image}
+                alt={project.name}
+                className="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-300"
+              />
             </div>
-          </motion.a>
+
+            <div className="p-5">
+              <h2 className="text-xl font-semibold text-purple-800 mb-2">
+                {project.name}
+              </h2>
+
+              {/* Short Description */}
+              <h3 className="text-md font-semibold text-purple-600 mb-1">
+                Short Description:
+              </h3>
+              <p className="text-gray-700 text-sm mb-3 whitespace-pre-line">
+                {project.shortDesc || "No short description available."}
+              </p>
+
+              {/* Duration & Link */}
+              {/* <div className="mb-3 text-sm text-gray-500">
+                <p>Duration: {project.duration}</p>
+                <a
+                  href={project.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-purple-600 underline"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  Visit Project
+                </a>
+              </div> */}
+
+              {/* Tech Stack */}
+              <div className="flex flex-wrap gap-2">
+                {(project.tech || []).map((item: string, i: number) => {
+                  try {
+                    const parsed = JSON.parse(item);
+                    return (
+                      <span
+                        key={i}
+                        className="px-2 py-1 bg-purple-100 text-purple-700 text-xs rounded-full"
+                      >
+                        {parsed}
+                      </span>
+                    );
+                  } catch {
+                    return (
+                      <span
+                        key={i}
+                        className="px-2 py-1 bg-purple-100 text-purple-700 text-xs rounded-full"
+                      >
+                        {item}
+                      </span>
+                    );
+                  }
+                })}
+              </div>
+            </div>
+          </motion.div>
         ))}
       </div>
     </section>

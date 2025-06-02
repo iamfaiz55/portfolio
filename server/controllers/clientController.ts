@@ -7,7 +7,7 @@ import sendEmail from "../utils/email";
 interface RegisterRequestBody {
   name: string;
   email: string;
-  phone: number | string;
+  mobile: number | string;
   message: string;
 }
 
@@ -16,9 +16,9 @@ export const contact = asyncHandler(
     req: Request<{}, {}, RegisterRequestBody>,
     res: Response
   ): Promise<any> => {
-    const { name, email, phone, message } = req.body;
+    const { name, email, mobile, message } = req.body;
 
-    await Client.create({ name, email, phone, message });
+    await Client.create({ name, email, mobile, message });
 
     const clientEmailSent = await sendEmail({
       to: email,
@@ -32,7 +32,7 @@ export const contact = asyncHandler(
       message: `
       Name: ${name},
       Email: ${email},
-      Phone: ${phone},
+      mobile: ${mobile},
       Message: ${message}
     `,
     });
